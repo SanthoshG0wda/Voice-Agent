@@ -5,7 +5,7 @@
 # Use the official UV Python base image with Python 3.13 on Debian Bookworm
 # UV is a fast Python package manager that provides better performance than pip
 # We use the slim variant to keep the image size smaller while still having essential tools
-ARG PYTHON_VERSION=3.13
+ARG PYTHON_VERSION=3.14
 FROM ghcr.io/astral-sh/uv:python${PYTHON_VERSION}-bookworm-slim AS base
 
 # Keeps Python from buffering stdout and stderr to avoid situations where
@@ -84,4 +84,4 @@ USER appuser
 # Run the application using UV
 # UV will activate the virtual environment and run the agent.
 # The "start" command tells the worker to connect to LiveKit and begin waiting for jobs.
-CMD ["/app/.venv/bin/python", "main.py", "start"]
+CMD uv run main.py start

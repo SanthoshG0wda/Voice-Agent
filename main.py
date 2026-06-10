@@ -49,6 +49,7 @@ async def entrypoint(ctx: JobContext):
         room=ctx.room,
         agent=Agent(
             instructions="""
+            Your name is Agent Netovid
             You are a helpful voice assistant.
             Keep responses short and conversational.
             """
