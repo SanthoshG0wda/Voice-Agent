@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: livekit-agent
+Version: 1.0.0
+Summary: Single prompt voice AI agent built with LiveKit Agents for Python
+Requires-Python: >=3.10
+Requires-Dist: livekit-agents[silero,turn-detector]~=1.5
+Requires-Dist: livekit-plugins-ai-coustics~=0.2
+Requires-Dist: livekit-plugins-noise-cancellation~=0.2
+Requires-Dist: python-dotenv
+Requires-Dist: python-handlebars

@@ -1,11 +1,9 @@
-# This is an example Dockerfile that builds a minimal container for running LK Agents
-# For more information on the build process, see https://docs.livekit.io/agents/ops/deployment/builds/
 # syntax=docker/dockerfile:1
 
 # Use the official UV Python base image with Python 3.13 on Debian Bookworm
 # UV is a fast Python package manager that provides better performance than pip
 # We use the slim variant to keep the image size smaller while still having essential tools
-ARG PYTHON_VERSION=3.14
+ARG PYTHON_VERSION=3.13
 FROM ghcr.io/astral-sh/uv:python${PYTHON_VERSION}-bookworm-slim AS base
 
 # Keeps Python from buffering stdout and stderr to avoid situations where
@@ -54,7 +52,7 @@ COPY . .
 # Pre-download any ML models or files the agent needs
 # This ensures the container is ready to run immediately without downloading
 # dependencies at runtime, which improves startup time and reliability
-RUN uv run "main.py" download-files
+RUN uv run "src/agent.py" download-files
 
 # --- Production stage ---
 # Build tools (gcc, g++, python3-dev) are not included in the final image
@@ -71,17 +69,17 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 
-WORKDIR /app
-
 # Copy the application and virtual environment with correct ownership in a single layer
 # This avoids expensive recursive chown and excludes build tools from the final image
 COPY --from=build --chown=appuser:appuser /app /app
+
+WORKDIR /app
 
 # Switch to the non-privileged user for all subsequent operations
 # This improves security by not running as root
 USER appuser
 
-# Run the application using UV
+# Run the AgentServer using UV
 # UV will activate the virtual environment and run the agent.
-# The "start" command tells the worker to connect to LiveKit and begin waiting for jobs.
-CMD uv run main.py start
+# The "start" command tells the AgentServer to connect to LiveKit and begin waiting for jobs.
+CMD ["uv", "run", "src/agent.py", "start"]
