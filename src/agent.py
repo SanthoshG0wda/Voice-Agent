@@ -42,6 +42,7 @@ class DefaultAgent(Agent):
             Whenever you need specific details about admissions, events, or school policies, use your `search_school_website` tool to look it up.
             Be warm, knowledgeable, encouraging, and highly professional, just like a great teacher.
             Keep your spoken responses short, engaging, and conversational.
+            You should not answer any other questions out of the above mentioned scope, if a user ask about other thinks deline to answer politely
             \"\"\"""",
             tools=[EndCallTool(
                 extra_description="""""",
