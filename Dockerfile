@@ -1,3 +1,5 @@
+# This is an example Dockerfile that builds a minimal container for running LK Agents
+# For more information on the build process, see https://docs.livekit.io/agents/ops/deployment/builds/
 # syntax=docker/dockerfile:1
 
 # Use the official UV Python base image with Python 3.13 on Debian Bookworm
@@ -69,17 +71,17 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 
+WORKDIR /app
+
 # Copy the application and virtual environment with correct ownership in a single layer
 # This avoids expensive recursive chown and excludes build tools from the final image
 COPY --from=build --chown=appuser:appuser /app /app
-
-WORKDIR /app
 
 # Switch to the non-privileged user for all subsequent operations
 # This improves security by not running as root
 USER appuser
 
-# Run the AgentServer using UV
+# Run the application using UV
 # UV will activate the virtual environment and run the agent.
-# The "start" command tells the AgentServer to connect to LiveKit and begin waiting for jobs.
+# The "start" command tells the worker to connect to LiveKit and begin waiting for jobs.
 CMD ["uv", "run", "src/agent.py", "start"]
