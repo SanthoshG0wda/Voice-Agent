@@ -122,13 +122,41 @@ LiveKit provides deep session insights for your agents through [Agent Observabil
 
 ## Deploy to production
 
-To deploy your agent to production, you can use the LiveKit CLI:
+A LiveKit voice agent is a continuous, stateful WebRTC worker process that must run on a persistent container or VM host.
+
+### Option 1: LiveKit Cloud Agent Hosting (Recommended)
+
+LiveKit Cloud provides managed continuous agent hosting directly integrated with your LiveKit project:
 
 ```console
-lk agent create
+# Deploy updated code using livekit.toml
+lk agent deploy
+
+# Set or update environment secrets
+lk agent update-secrets --secret NVIDIA_API_KEY="your_nvidia_api_key"
+
+# Monitor status and logs
+lk agent status
+lk agent logs
 ```
 
-See the [deploying to production](https://docs.livekit.io/deploy/agents/) guide for detailed instructions and optimization tips.
+### Option 2: Deploy to Railway
+
+1. Push your repository to GitHub.
+2. Log in to [Railway](https://railway.app/) and click **New Project** → **Deploy from GitHub repo**.
+3. Railway automatically detects `railway.toml` and builds using the [`Dockerfile`](Dockerfile).
+4. Add the following **Environment Variables** in your Railway service settings:
+   - `LIVEKIT_URL` (e.g. `wss://voice-agent-d15dwf7e.livekit.cloud`)
+   - `LIVEKIT_API_KEY`
+   - `LIVEKIT_API_SECRET`
+   - `NVIDIA_API_KEY`
+
+### Option 3: Deploy to Render
+
+1. Log in to [Render](https://render.com/).
+2. Create a new **Blueprint** from your GitHub repository using [`render.yaml`](render.yaml) (configured as a continuous background worker).
+3. Fill in the required environment variables (`LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`, `NVIDIA_API_KEY`).
+
 
 ## Join the LiveKit community
 

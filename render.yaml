@@ -1,0 +1,16 @@
+services:
+  - type: worker
+    name: christy-voice-agent
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    autoDeploy: true
+    envVars:
+      - key: LIVEKIT_URL
+        sync: false
+      - key: LIVEKIT_API_KEY
+        sync: false
+      - key: LIVEKIT_API_SECRET
+        sync: false
+      - key: NVIDIA_API_KEY
+        sync: false

@@ -57,4 +57,4 @@ COPY --from=build --chown=appuser:appuser /app /app
 
 USER appuser
 
-CMD ["uv", "run", "src/agent.py", "start"]
+CMD ["uv", "run", "python", "src/agent.py", "start"]

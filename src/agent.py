@@ -1,5 +1,6 @@
 import logging
 import os
+
 from dotenv import load_dotenv
 from livekit.agents import (
     Agent,
@@ -14,15 +15,17 @@ from livekit.agents import (
 )
 from livekit.plugins import (
     noise_cancellation,
+    nvidia,
     openai,
     silero,
-    nvidia,
 )
 from livekit.plugins.turn_detector.multilingual import MultilingualModel
 
 logger = logging.getLogger("agent-Christy")
 
 load_dotenv(".env.local")
+load_dotenv()
+
 
 NVIDIA_NIM_BASE_URL = "https://integrate.api.nvidia.com/v1"
 NVIDIA_NIM_MODEL = "nvidia/nemotron-mini-4b-instruct"
